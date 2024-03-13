@@ -34,7 +34,19 @@ jobs:
         with:
           name: BBDown_win-arm64
           path: artifact-arm64\BBDown.exe
-  
+
+      - name: 发布到Release
+        if: ${{ env.TO_RELEASE == 'yes' }}
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ env.NAME }}
+          tag_name: ${{ env.TAG }}
+          #body_path: /opt/openwrt/image/readme.txt
+          draft: false
+          prerelease: false
+          files: artifact-arm64\BBDown.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
 
   build-linux-x64:
     
@@ -59,6 +71,19 @@ jobs:
           name: BBDown_linux-x64
           path: artifact/BBDown
 
+      - name: 发布到Release
+        if: ${{ env.TO_RELEASE == 'yes' }}
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ env.NAME }}
+          tag_name: ${{ env.TAG }}
+          #body_path: /opt/openwrt/image/readme.txt
+          draft: false
+          prerelease: false
+          files: artifact/BBDown/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build-linux-arm64:
     
     runs-on: ubuntu-latest
@@ -78,6 +103,19 @@ jobs:
         with:
           name: BBDown_linux-arm64
           path: artifact/BBDown
+          
+      - name: 发布到Release
+        if: ${{ env.TO_RELEASE == 'yes' }}
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ env.NAME }}
+          tag_name: ${{ env.TAG }}
+          #body_path: /opt/openwrt/image/readme.txt
+          draft: false
+          prerelease: false
+          files: artifact/BBDown/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
   build-mac-x64-arm64:
     
@@ -106,3 +144,23 @@ jobs:
         with:
           name: BBDown_osx-arm64
           path: artifact-arm64/BBDown
+
+      # - name : 上传编译的固件Artifacts
+      #   uses: actions/upload-artifact@v2
+      #   if: true
+      #   with:
+      #     name: ${{ env.NAME }}
+      #     path: artifact/BBDown
+        
+      - name: 发布到Release
+        if: ${{ env.TO_RELEASE == 'yes' }}
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ env.NAME }}
+          tag_name: ${{ env.TAG }}
+          #body_path: /opt/openwrt/image/readme.txt
+          draft: false
+          prerelease: false
+          files: artifact-arm64/BBDown/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
